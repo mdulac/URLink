@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>URLink : minifiez vos URls</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Mathieu" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="content">
+			<!-- HEADER -->
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<div class="brand" >
+							URLink - Application HTML5 / Twitter Bootstrap / REST / NoSQL
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+
+				<!-- -->
+				<div class="hero-unit">
+					<h1>URLink</h1>
+					<p>
+						URLink est une application permettant de minifier vos URLs
+					</p>
+					<p>
+						<div id="url-error" class="alert alert-error">
+							<button id="url-close" type="button" class="close">
+								×
+							</button>
+							Veuillez entrer une URL valide
+						</div>
+						<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier"/>
+						<button id="action" type="submit" class="btn" onclick="checkURL();">
+							Minifier
+						</button>
+					</p>
+				</div>
+
+				<div>
+					<!-- TODO : Bloc SSE -->
+				</div>
+
+				<div class="row" style="horizontal-align: center">
+					<div class="span4">
+						<h3>Minimisez vos URLs</h3>
+						<p>
+							<!-- TODO --> URLink vous permet de minimiser vos URLs.
+						</p>
+					</div>
+					<div class="span4">
+						<h3>Soyez informés des dernières URLs minimisées</h3>
+						<p>
+							<!-- TODO --> Gardez un oeil sur les dernières URLs minimisée, et ceci en temps-réel.
+						</p>
+					</div>
+					<div class="span4">
+						<h3>Utilise les dernières technologies Web Compliant</h3>
+						<p>
+							<!-- TODO --> Les technologies utilisées pour le développement de cette application sont Web Compliant.
+						</p>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script>
+			(function() {
+				$(document).ready(function() {
+
+					// Hide the error box by default
+					$("#url-error").hide();
+
+					// Hide the error box when clicking on its close cross
+					$("#url-close").click(function() {
+						$("#url-error").hide();
+					})
+					// Hide the error box when input text has focus
+					$("#url").focus(function() {
+						$("#url-error").hide();
+					})
+				})
+			})();
+
+			function checkURL() {
+
+				// URL pattern definiton
+				var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+
+				if (regexp.test($("#url").val())) {
+					// TODO : Send URL to the REST service
+				} else {
+					// Show the error box
+					$("#url-error").show();
+					return false;
+				}
+			}
+		</script>
+
+	</body>
+</html>
