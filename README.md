@@ -1,4 +1,4 @@
-*** FRANCAIS ***<br/>
+<p style="font-weight:bold;color:#FEFEFE;">*** FRANCAIS ***</p><br/>
 UrLink est une application de minification d'URL.
 Minifier vos URLs permet essentiellement de gagner des caractères lors du partage d'information via les réseaux sociaux.
 Cette application peut être déployée dans le cadre d'une
