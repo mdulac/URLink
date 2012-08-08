@@ -18,13 +18,13 @@ Ces technologies sont :
 
 <h1>*** ENGLISH ***</h1>
 UrLink is a URL minifier application.
-To minify your URLs allows you, for the most part, to spare caracters during the sharing of information throught different social networks. This application can be deployed for a professional use, especially for intern URLs minifying (Intranet). Also, it will provide a bundle of functionalities, such as real-time minified URL sharing by all the users.
+To minify your URLs allows you, for the most part, to spare caracters during the sharing of information throught different social networks. This application can be deployed for a professional use, especially for intern URLs minifying (Intranet). Also, it will provide a bundle of functionalities, such as real-time minified URL share.
 
 The application is a SPI (Single Page Interface), this in order to optimize the user experience. Thereby, there will not be any undesired page loading, nor any blinking.
 
-UrLink is actually in development state, exploiting the brand new technologies as known as "Web Compliant". These are:
+UrLink is actually in development state, exploiting the brand new technologies as known as "Web Compliant" technologies. These are:
 - HTML5 (including LocalStorage), jQuery and Twitter Bootstrap for the application view,
 - NodeJS for the server-side,
 - REST Architecture, services provided by the NodeJS Express module,
-- Redis (NoSQL) for the data persistence of the database,
+- Redis (NoSQL) for the data persistence,
 - Server-Sent Event for the unidirectional communication between the server and clients (Real-Time Streaming).
