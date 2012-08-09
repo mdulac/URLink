@@ -1,14 +1,17 @@
 var http = require('http');
 var sys = require('sys');
 var fs = require('fs');
+var crypto = require('crypto');
 
 var express = require("express");
 var app = express();
 
 // Route "/"
 app.get('/', function(req, res) {
-	res.writeHead(200, {
-		'Content-Type' : 'text/html'
+	
+	res.writeHead(301, {
+		'Content-Type' : 'text/html',
+		'Location' : 'index.html',
 	});
 	res.write(fs.readFileSync(__dirname + '/../views/index.html'));
 	res.end();
@@ -43,10 +46,10 @@ app.get('/img/:file', function(req, res) {
 });
 
 // Service REST GET
-app.get('/:hash', function(req, res) {
+app.get(/^\/([a-zA-Z0-9]{6})$/, function(req, res) {
 	// TODO : implements REST Service to get a full URL by its hash
 	
-	var id = req.param('hash');
+	var id = req.params[0];
 	res.writeHead(200, {
 		'Content-Type' : 'text/css'
 	});
@@ -63,7 +66,10 @@ app.post('/api/minify/:url', function(req, res) {
 	res.writeHead(200, {
 		'Content-Type' : 'text/css'
 	});
-	res.write(url);
+	
+	// XXX : for the moment, just keep the 6 first chars from sha1 hash
+	var hash = crypto.createHash('sha1').update(url).digest('hex').substring(0, 6);
+	res.write(hash);
 	res.end();
 });
 
@@ -78,17 +84,4 @@ function sendSSE(req, res) {
 		'Connection' : 'keep-alive'
 	});
 
-	var id = (new Date()).toLocaleTimeString();
-
-	// Sends a SSE every 5 seconds on a single connection.
-	setInterval(function() {
-		constructSSE(res, id, (new Date()).toLocaleTimeString());
-	}, 5000);
-
-	constructSSE(res, id, (new Date()).toLocaleTimeString());
-}
-
-function constructSSE(res, id, data) {
-	res.write('id: ' + id + '\n');
-	res.write("data: " + data + '\n\n');
 }
