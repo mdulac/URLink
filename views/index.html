@@ -167,33 +167,36 @@
 						// this function is used to minify a URL when clicking on the button
 						self.minify = function() {
 							
-							var regexp = /(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 							var urlToMinify = $("#url").val();
-							
-							if (regexp.test(urlToMinify)) {
 
+							if(urlToMinify === '') {
+								// Show the error box only if it is hidden
+								$("#url-error:hidden").slideDown(300).delay(2000).slideUp(300);
+							}
+							
+							else {
+							
 								// We need to encode the URL because of the ://
 								var encodedURL = encodeURIComponent(urlToMinify);
 
 								// TODO : Send URL to the REST service
-								$.post("/api/minify/" + encodedURL, function(data) {
+								$.post("/api/minify/" + encodedURL, function(response) {
 									
+									var json_response = eval(response);
+									var url = json_response.url;
+									var minified = json_response.minified;
+										
 									// TODO : process the result of the XHR
-									
-									self.urls.push(new URL(urlToMinify, data));
-									
+									self.urls.push(new URL(url, minified));
+										
 									// Using of localStorage from HTML5
-									localStorage[data] = urlToMinify;
+									localStorage[url] = minified;
 								});
 
-							} else {
-								// Show the error box only if it is hidden
-								$("#url-error:hidden").slideDown(300).delay(2000).slideUp(300);
-
-							}
+								// FIXME : autocompletion doesn't activate the button !
+								self.toMinify(""); // Clears the text box, because it's bound to the "toMinify" observable
 							
-							// FIXME : copy/paste and autocompletion doesn't activate the button !
-							self.toMinify(""); // Clears the text box, because it's bound to the "toMinify" observable
+							}
 							
 						}.bind(this);
 					};

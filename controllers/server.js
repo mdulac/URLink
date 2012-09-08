@@ -8,12 +8,10 @@ var app = express();
 
 // Route "/"
 app.get('/', function(req, res) {
-	
 	res.writeHead(301, {
 		'Content-Type' : 'text/html',
 		'Location' : 'index.html',
 	});
-	res.write(fs.readFileSync(__dirname + '/../views/index.html'));
 	res.end();
 });
 
@@ -51,7 +49,7 @@ app.get(/^\/([a-zA-Z0-9]{6})$/, function(req, res) {
 	
 	var id = req.params[0];
 	res.writeHead(200, {
-		'Content-Type' : 'text/css'
+		'Content-Type' : 'text/html'
 	});
 	res.write("COOL !");
 	res.end();
@@ -64,12 +62,16 @@ app.post('/api/minify/:url', function(req, res) {
 	var url = req.param('url');
 	
 	res.writeHead(200, {
-		'Content-Type' : 'text/css'
+		'Content-Type' : 'text/json'
 	});
 	
 	// XXX : for the moment, just keep the 6 first chars from sha1 hash
 	var hash = crypto.createHash('sha1').update(url).digest('hex').substring(0, 6);
-	res.write(hash);
+	
+	// JSONify the hash
+	var response = '{ "url" : "' + url + '", "minified" : "' + hash + '" }'
+	
+	res.write(response);
 	res.end();
 });
 
