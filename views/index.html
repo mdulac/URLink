@@ -149,6 +149,7 @@
 					
 					var ApplicationModel = function() {
 
+						var regexp = /$(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 						var self = this;
 						
 						// array of URL
@@ -168,8 +169,8 @@
 						self.minify = function() {
 							
 							var urlToMinify = $("#url").val();
-
-							if(urlToMinify === '') {
+							
+							if(!regexp.test(urlToMinify)) {
 								// Show the error box only if it is hidden
 								$("#url-error:hidden").slideDown(300).delay(2000).slideUp(300);
 							}
@@ -188,15 +189,14 @@
 										
 									// TODO : process the result of the XHR
 									self.urls.push(new URL(url, minified));
-										
+									
 									// Using of localStorage from HTML5
 									localStorage[url] = minified;
 								});
-
-								// FIXME : autocompletion doesn't activate the button !
-								self.toMinify(""); // Clears the text box, because it's bound to the "toMinify" observable
-							
 							}
+							
+							// FIXME : autocompletion doesn't activate the button !
+							self.toMinify(""); // Clears the text box, because it's bound to the "toMinify" observable
 							
 						}.bind(this);
 					};
