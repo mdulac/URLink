@@ -28,3 +28,6 @@ UrLink is actually in development state, exploiting the brand new technologies a
 - REST Architecture, services provided by the NodeJS Express module,
 - Redis (NoSQL) for the data persistence,
 - Server-Sent Event for the unidirectional communication between the server and clients (Real-Time Streaming).
+
+### Single face example
+![Screenshot](https://github.com/mdulac/URLink/blob/master/img/glyphicons-halflings-white.png)
