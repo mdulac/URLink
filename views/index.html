@@ -24,6 +24,52 @@
 	</head>
 
 	<body>
+
+		<style type="text/css">
+		
+			body {
+				color: black;
+				background-color: #2F96B4;
+				width: 100%;
+			}
+
+			#header {
+				background-image: url(img/header.png);
+				background-repeat: no-repeat;
+				height: 260px;
+			}
+
+			#main {
+				background-image: url(img/content-bg.png);
+				background-repeat: repeat-y;
+				background-attachment:fixed;
+			}
+			
+			#print-hash-url-success {
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.icon-search {
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.alert-info {
+				height: 10px;
+				margin-bottom: 5px;
+			}
+			
+			.no-bulletpoint {
+				list-style-type: none;
+			}
+			
+			.row {
+				horizontal-align: center;
+			}
+			
+		</style>
+
 		<div id="content">
 			<!-- HEADER -->
 			<div class="navbar">
@@ -36,75 +82,82 @@
 				</div>
 			</div>
 
-			<div class="container">
+			<div id="header"> </div>
 
-				<!-- -->
-				<div class="hero-unit">
-					<h1>UrLink</h1>
-					<p>
-						UrLink est une application permettant de minifier vos URLs
-					</p>
-					<p>
-						<div id="url-error" class="alert alert-error">
-							<!-- <button id="url-close" type="button" class="close">
+			<div id="main">
+				<div class="container">
+
+					<!-- -->
+					<div class="hero-unit">
+						<h1>UrLink</h1>
+						<p>
+							UrLink est une application permettant de minifier vos URLs
+						</p>
+						<p>
+							<div id="url-error" class="alert alert-error">
+								<!-- <button id="url-close" type="button" class="close">
 								×
-							</button> -->
-							<i class="icon-ban-circle icon-white"> </i>
-							Veuillez entrer une URL valide
-						</div>
-						<form id="form" data-bind="submit: minify" method="post">
-							<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
-							<i class="icon-search" style="float: left; margin-right: 10px;"> </i>
-							<button id="action" type="submit" class="btn" data-bind="enable: toMinify().length > 0">
-								Minifier
+								</button> -->
+								<i class="icon-ban-circle icon-white"> </i>
+								Veuillez entrer une URL valide
+							</div>
+							<form id="form" data-bind="submit: minify" method="post">
+								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
+								<i class="icon-search"> </i>
+								<button id="action" type="submit" class="btn" data-bind="enable: toMinify().length > 0">
+									Minifier
+								</button>
+							</form>
+							<button id="clean_database" type="submit" class="btn" onclick="$.get('/admin/clean/'); localStorage.clear(); location.reload(true);">
+								Clear REDIS Database and LS
 							</button>
-						</form>
-					</p>
-					<p>
-						<span id="print-hash-url-success" class="label label-success" style="float: left; margin-right: 10px;">Succès</span>
-						<!-- <i id="print-hash-url-success" class="icon-thumbs-up" style="float: left; margin-right: 10px;"> </i> -->
-						<div id="print-hash-url"></div>
-					</p>
-					
-					<!-- URLs processed -->
-					<p>
-						<ul data-bind="foreach: urls" style="list-style-type: none;">
-            				<li>
-            					<div class="alert alert-info" style="height: 10px; margin-bottom: 5px;">
-            						<span data-bind="text: name"> </span>
-                					<span data-bind="text: minifiedName"> </span>
-								</div>
-            				</li>
-        				</ul>
-					</p>
-					
-				</div>
+						</p>
+						<p>
+							<span id="print-hash-url-success" class="label label-success">Succès</span>
+							<!-- <i id="print-hash-url-success" class="icon-thumbs-up" style="float: left; margin-right: 10px;"> </i> -->
+							<div id="print-hash-url"></div>
+						</p>
 
-				<div>
-					<!-- TODO : Bloc SSE -->
-				</div>
+						<!-- URLs processed -->
+						<p>
+							<ul class="no-bulletpoint" data-bind="foreach: urls">
+								<li>
+									<div class="alert alert-info">
+										<span data-bind="text: name"> </span>
+										<span data-bind="text: minifiedName"> </span>
+									</div>
+								</li>
+							</ul>
+						</p>
 
-				<div class="row" style="horizontal-align: center">
-					<div class="span4">
-						<h3>Minimisez vos URLs</h3>
-						<p>
-							<!-- TODO -->
-							UrLink vous permet de minimiser vos URLs.
-						</p>
 					</div>
-					<div class="span4">
-						<h3>Soyez informés des dernières URLs minimisées</h3>
-						<p>
-							<!-- TODO -->
-							Gardez un oeil sur les dernières URLs minimisées, et ceci en temps-réel.
-						</p>
+
+					<div>
+						<!-- TODO : Bloc SSE -->
 					</div>
-					<div class="span4">
-						<h3>Utilise les dernières technologies Web Compliant</h3>
-						<p>
-							<!-- TODO -->
-							Les technologies utilisées pour le développement de cette application sont Web Compliant.
-						</p>
+
+					<div class="row">
+						<div class="span4">
+							<h3>Minimisez vos URLs</h3>
+							<p>
+								<!-- TODO -->
+								UrLink vous permet de minimiser vos URLs.
+							</p>
+						</div>
+						<div class="span4">
+							<h3>Soyez informés des dernières URLs minimisées</h3>
+							<p>
+								<!-- TODO -->
+								Gardez un oeil sur les dernières URLs minimisées, et ceci en temps-réel.
+							</p>
+						</div>
+						<div class="span4">
+							<h3>Utilise les dernières technologies Web Compliant</h3>
+							<p>
+								<!-- TODO -->
+								Les technologies utilisées pour le développement de cette application sont Web Compliant.
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -118,7 +171,7 @@
 					// *******************************************
 					// Set up the UI states of the application ! *
 					// *******************************************
-					
+
 					// Hide the success box by default
 					$("#print-hash-url-success").hide();
 
@@ -127,18 +180,18 @@
 
 					// Deactivate the text field during XHR
 					$("#url").ajaxStart(function() {
-    					$(this).attr({
+						$(this).attr({
 							"disabled" : "disabled"
 						});
-					// Activate the text field after a XHR
+						// Activate the text field after a XHR
 					}).ajaxComplete(function() {
-    					$(this).removeAttr("disabled");
+						$(this).removeAttr("disabled");
 					});
-					
+
 					// Deactivate the button during XHR
 					// Must not be activate after : handle by Knockout binding !
 					$("#action").ajaxStart(function() {
-    					$(this).attr({
+						$(this).attr({
 							"disabled" : "disabled"
 						});
 					});
@@ -146,58 +199,58 @@
 					// *********************************
 					// KnockOut model and behaviours ! *
 					// *********************************
-					
+
 					var ApplicationModel = function() {
 
-						var regexp = /$(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+						// FIXME : adapt this regexp !
+						var regexp = /(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 						var self = this;
-						
+
 						// array of URL
 						self.urls = ko.observableArray([]);
-						
+
 						// URL to minified
 						self.toMinify = ko.observable("");
-						
+
 						// Get all the URLs processed from the HTML5 localStorage
-						for (var i=0; i < localStorage.length; i++) {
+						for (var i = 0; i < localStorage.length; i++) {
 							var key = localStorage.key(i);
 							var value = localStorage[key];
-  							self.urls.push(new URL(value, key));
+							self.urls.push(new URL(value, key));
 						};
 
 						// this function is used to minify a URL when clicking on the button
 						self.minify = function() {
-							
+
 							var urlToMinify = $("#url").val();
-							
-							if(!regexp.test(urlToMinify)) {
+
+							if (!regexp.test(urlToMinify)) {
 								// Show the error box only if it is hidden
 								$("#url-error:hidden").slideDown(300).delay(2000).slideUp(300);
-							}
-							
-							else {
-							
+							} else {
+
 								// We need to encode the URL because of the ://
 								var encodedURL = encodeURIComponent(urlToMinify);
 
 								// TODO : Send URL to the REST service
 								$.post("/api/minify/" + encodedURL, function(response) {
-									
+
 									var json_response = eval(response);
 									var url = json_response.url;
 									var minified = json_response.minified;
-										
+
 									// TODO : process the result of the XHR
 									self.urls.push(new URL(url, minified));
-									
+
 									// Using of localStorage from HTML5
 									localStorage[url] = minified;
 								});
 							}
-							
+
 							// FIXME : autocompletion doesn't activate the button !
-							self.toMinify(""); // Clears the text box, because it's bound to the "toMinify" observable
-							
+							self.toMinify("");
+							// Clears the text box, because it's bound to the "toMinify" observable
+
 						}.bind(this);
 					};
 
@@ -207,11 +260,10 @@
 						self.name = ko.observable(_name);
 						self.minifiedName = ko.observable(_minifiedName);
 					}
-					
+
 					ko.applyBindings(new ApplicationModel());
 
 				})
-				
 			})();
 
 		</script>
