@@ -1,0 +1,40 @@
+body {
+	color: black;
+	background-color: #2F96B4;
+	width: 100%;
+}
+
+#header {
+	background-image: url(../img/header.png);
+	background-repeat: no-repeat;
+	height: 260px;
+}
+
+#main {
+	background-image: url(../img/content-bg.png);
+	background-repeat: repeat-y;
+	background-attachment:fixed;
+}
+
+#print-hash-url-success {
+	float: left;
+	margin-right: 10px;
+}
+		
+.icon-search {
+	float: left;
+	margin-right: 10px;
+}
+			
+.alert-info {
+	height: 10px;
+	margin-bottom: 5px;
+}
+			
+.no-bulletpoint {
+	list-style-type: none;
+}
+		
+.row {
+	horizontal-align: center;
+}
