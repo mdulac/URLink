@@ -30,4 +30,4 @@ UrLink is actually in development state, exploiting the brand new technologies a
 - Server-Sent Event for the unidirectional communication between the server and clients (Real-Time Streaming).
 
 ### Screenshot
-![Screenshot](https://github.com/mdulac/URLink/blob/master/img/screenshot/urlink.gif)
+![Screenshot](http://github.com/user/repository/raw/master/img/screenshot/urlink.gif)
