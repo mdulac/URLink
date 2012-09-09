@@ -1,4 +1,4 @@
-<h1>*** FRANCAIS ***</h1>
+### FRANCAIS
 UrLink est une application de minification d'URL.
 Minifier vos URLs permet essentiellement de gagner des caractères lors du partage d'information via les réseaux sociaux.
 Cette application peut être déployée dans le cadre d'une
@@ -16,7 +16,7 @@ Ces technologies sont :
 - Redis (NoSQL) pour la persistence des données en base,
 - Server-Sent Event pour la communication unidirectionnelle entre serveur et clients (Real-Time Streaming).
 
-<h1>*** ENGLISH ***</h1>
+### ENGLISH
 UrLink is a URL minifier application.
 To minify your URLs allows you, for the most part, to spare caracters during the sharing of information throught different social networks. This application can be deployed for a professional use, especially for intern URLs minifying (Intranet). Also, it will provide a bundle of functionalities, such as real-time minified URL sharing.
 
@@ -29,5 +29,5 @@ UrLink is actually in development state, exploiting the brand new technologies a
 - Redis (NoSQL) for the data persistence,
 - Server-Sent Event for the unidirectional communication between the server and clients (Real-Time Streaming).
 
-### Single face example
+### Screenshot
 ![Screenshot](https://github.com/mdulac/URLink/blob/master/img/glyphicons-halflings-white.png)
