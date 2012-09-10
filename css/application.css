@@ -16,6 +16,12 @@ body {
 	background-attachment:fixed;
 }
 
+#footer {
+	background-image: url(../img/footer.png);
+	background-repeat: no-repeat;
+	height: 260px;
+}
+
 #print-hash-url-success {
 	float: left;
 	margin-right: 10px;
