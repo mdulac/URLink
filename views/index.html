@@ -59,7 +59,7 @@
 								Veuillez entrer une URL valide
 							</div>
 							<form id="form" data-bind="submit: minify" method="post">
-								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
+								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" autocomplete="off" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
 								<i class="icon-search"> </i>
 								<button id="action" type="submit" class="btn" data-bind="enable: toMinify().length > 0">
 									Minifier
@@ -152,7 +152,7 @@
 							"disabled" : "disabled"
 						});
 					});
-
+					
 					// *********************************
 					// KnockOut model and behaviours ! *
 					// *********************************
