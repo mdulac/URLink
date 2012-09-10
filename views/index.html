@@ -129,6 +129,9 @@
 					// Set up the UI states of the application ! *
 					// *******************************************
 
+					// Focus on the input text by default
+					$("#url").focus();
+
 					// Hide the success box by default
 					$("#print-hash-url-success").hide();
 
@@ -143,6 +146,9 @@
 						// Activate the text field after a XHR
 					}).ajaxComplete(function() {
 						$(this).removeAttr("disabled");
+						
+						// Focus on the input text after an XHR
+						$("#url").focus();
 					});
 
 					// Deactivate the button during XHR
