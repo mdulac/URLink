@@ -22,6 +22,8 @@
 		
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-2.1.0.js"></script>
+		<script type="text/javascript" src="../js/bootstrap.js"></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 
 	</head>
 
@@ -60,12 +62,12 @@
 							</div>
 							<form id="form" data-bind="submit: minify" method="post">
 								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" autocomplete="off" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
-								<i class="icon-search"> </i>
-								<button id="action" type="submit" class="btn" data-bind="enable: toMinify().length > 0">
+								<!-- <i class="icon-search"> </i> -->
+								<button id="action" type="submit" class="btn btn-primary" data-bind="enable: toMinify().length > 0">
 									Minifier
 								</button>
 							</form>
-							<button id="clean_database" type="submit" class="btn" onclick="$.get('/admin/clean/'); localStorage.clear(); location.reload(true);">
+							<button id="clean_database" type="submit" class="btn btn-primary" onclick="$.get('/admin/clean/'); localStorage.clear(); location.reload(true);">
 								Clear REDIS Database and LS
 							</button>
 						</p>
@@ -188,8 +190,9 @@
 							var urlToMinify = $("#url").val();
 
 							if (!regexp.test(urlToMinify)) {
+								
 								// Show the error box only if it is hidden
-								$("#url-error:hidden").slideDown(300).delay(2000).slideUp(300);
+								$("#url-error:hidden").fadeIn(800).delay(2000).fadeOut(600);
 							} else {
 
 								// We need to encode the URL because of the ://
