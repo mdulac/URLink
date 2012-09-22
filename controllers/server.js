@@ -9,8 +9,26 @@ var express = require("express");
 var client = redis.createClient();
 var app = express();
 
+var protocols = ["http", "ftp"];
+
+var status = {
+    "ok" : "200",
+    "error" : "404"
+};
+
+Array.prototype.contains = function(needle) {
+   for (i in this) {
+       if (this[i] == needle) {
+       	console.log("Element", needle ,"found : ", this[i]);
+       	return true;
+       }
+   }
+   console.log("Element", needle ,"not found");
+   return false;
+}
+
 client.on("error", function (err) {
-	console.log("Error " + err);
+	console.log(err);
 });
 
 // Route "/" by default
@@ -88,13 +106,11 @@ app.get(/^\/([a-zA-Z0-9-_]{6})$/, function(req, res) {
 app.post('/api/minify/:url', function(req, res) {
 	// TODO : implements REST Service to add a new URL
 	
-	var url = req.param('url');
+	var url = req.param('url').toLowerCase();
 	
 	// TODO Create regexp rules and extract Host name {
 	
-	// First, suppress http:// at the beginning if it's present
-	var verifie = /^http:\/\//.test(url);
-	url = url.substring(7);
+	console.log(validateURL(url, protocols));
 	
 	// }
 	
@@ -136,4 +152,33 @@ function sendSSE(req, res) {
 		'Connection' : 'keep-alive'
 	});
 
+}
+
+// Considers that protocol is the pattern between the beginning of the string, and the pattern "://"
+// @param url : URL (string) you want to test
+// @param validProtocols : array of strings that represents the valid protocols
+// @returns a JSON object that represents the URL (status 200) or the error (status ???)
+function validateURL(url, validProtocols) {
+	
+	var match = /^([a-zA-Z]+):\/\//i.exec(url);
+	
+	var input = url;
+	
+	// By default, consider that it's a http protocol URI
+	var protocol = "http";
+	
+	// There is a protocol
+	if(match != null && match.length > 0) {
+		protocol = match[1];
+		if(!validProtocols.contains(protocol)) {
+			return '{ "status" : "' + status["error"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+		}
+		url = url.substring(protocol.length + "://".length);
+	}
+	
+	// Protocol checked, now verify the format of the URL : [username[:password]@](hostname|ip)[:port][/path/][?query][#fragment]
+	match = /^[[a-ZA-Z0-9]+[:[a-zA-Z0-9]+]{0,1}@]{0,1}([a-zA-Z0-9-]+)[:\d{1,4}]{0,1}([\/\w+]){0,1}/i.exec(url);
+	
+	return '{ "status" : "' + status["ok"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+	
 }
