@@ -89,11 +89,15 @@ app.get(/^\/([a-zA-Z0-9-_]{6})$/, function(req, res) {
 		
     	// reply is null when the key is missing
     	var status = (reply == null ? 404 : 301);
-    	var location = (reply == null ? '' : reply);
+    	var str = (reply == null ? '' : reply);
+    	
+    	console.log(str);
+    	
+    	var obj = JSON.parse(str);
     	
     	res.writeHead(status, {
 			'Content-Type' : 'text/html',
-			'Host' : location
+			'Location' : obj["protocol"] + "://" + obj["host"] + obj["location"],
 		});
     	
     	res.write('COOL!');
@@ -106,32 +110,28 @@ app.get(/^\/([a-zA-Z0-9-_]{6})$/, function(req, res) {
 app.post('/api/minify/:url', function(req, res) {
 	// TODO : implements REST Service to add a new URL
 	
-	var url = req.param('url').toLowerCase();
-	
-	// TODO Create regexp rules and extract Host name {
-	
-	console.log(validateURL(url, protocols));
-	
-	// }
-	
-	// XXX : for the moment, just keep the 6 first chars from sha1 hash
-	var hash = crypto.createHash('sha1').update(url).digest('base64').substring(0, 6);
-	
-	// We replace base64 encoding by base64url encoding, due to '/'
-	hash = hash.replace("+","-");
-	hash = hash.replace("/","_");
-	
-	// Set the URL in NoSQL Redis
-	client.set(hash, url);
-	
-	// JSONify the hash
-	var response = '{ "url" : "' + url + '", "minified" : "' + hash + '" }'
-	
 	res.writeHead(200, {
 		'Content-Type' : 'text/json'
 	});
 	
-	res.write(response);
+	var url = req.param('url').toLowerCase();
+	
+	var json = validateURL(url, protocols);
+	
+	if(json["status"] == status["error"]) {
+		res.write(JSON.stringify(json));
+	}	
+	
+	else {
+		var hash = createHash(url);
+		// JSONify the hash
+		json["hash"] = hash;
+	
+		// Set the URL in NoSQL Redis
+		client.set(hash, JSON.stringify(json));
+		res.write(JSON.stringify(json));
+	}
+	
 	res.end();
 });
 
@@ -176,18 +176,51 @@ function validateURL(url, validProtocols) {
 	if(match != null && match.length > 0) {
 		protocol = match[1];
 		if(!validProtocols.contains(protocol)) {
-			return '{ "status" : "' + status["error"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+			
+			return { 
+				"status" : status["error"],
+				"protocol" : protocol,
+				"input" : input
+			};
+			
 		}
 		url = url.substring(protocol.length + "://".length);
 	}
 	
 	// Protocol checked, now verify the format of the URL : [username[:password]@](hostname|ip)[:port][/path/][?query][#fragment]
-	// match = /^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+)*$/i.test(url);
+	match = /^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,5})?((\/[a-zA-Z0-9\.\?=\-_&#,\+]+)*\/)$/i.exec(url);
 	
-	if(/^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+\/)*$/i.test(url)) {
-		return '{ "status" : "' + status["ok"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+	if(match != null && match.length > 0) {
+		var host = match[1];
+		var location = match[2];
+		
+		return {
+			"status" : status["ok"],
+			"protocol" : protocol,
+			"host" : host,
+			"location" : location,
+			"input" : input
+		};
 	}
 	
-	return '{ "status" : "' + status["error"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+	console.log("URL non valide !");
 	
+	return { 
+		"status" : status["error"],
+		"protocol" : protocol,
+		"input" : input
+	};
+	
+}
+
+function createHash(toHash) {
+	
+	// XXX : for the moment, just keep the 6 first chars from sha1 hash
+	var hash = crypto.createHash('sha1').update(toHash).digest('base64').substring(0, 6);
+	
+	// We replace base64 encoding by base64url encoding, due to '/'
+	hash = hash.replace("+","-");
+	hash = hash.replace("/","_");
+	
+	return hash;
 }
