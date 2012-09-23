@@ -61,9 +61,9 @@
 								Veuillez entrer une URL valide
 							</div>
 							<form id="form" data-bind="submit: minify" method="post">
-								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" autocomplete="off" data-bind='value: toMinify, valueUpdate: "afterkeydown"' />
+								<input id="url" name="url" placeholder="Veuillez entrer l'URL à minifier" autocomplete="off" data-bind='value: toMinify, valueUpdate: "input"' />
 								<!-- <i class="icon-search"> </i> -->
-								<button id="action" type="submit" class="btn btn-primary" data-bind="enable: toMinify().length > 0">
+								<button id="action" type="submit" class="btn btn-primary" data-bind="enable: /^([a-zA-Z]+:\/\/)?[a-zA-Z0-9_\=\#\-\&\,\+\?]{2,}\.[a-zA-Z0-9_\=\#\-\&\,\+\?]{2,}/i.test(toMinify())">
 									Minifier
 								</button>
 							</form>
@@ -161,6 +161,13 @@
 						});
 					});
 					
+					// Capture the 'Enter' press
+					$('#url').keydown(function(e) {
+    					if(e.keyCode == 13) {
+    						return !$('#action').is(':disabled');
+    					}
+					});
+					
 					// *********************************
 					// KnockOut model and behaviours ! *
 					// *********************************
@@ -202,14 +209,21 @@
 								$.post("/api/minify/" + encodedURL, function(response) {
 
 									var json_response = eval(response);
-									var url = json_response.url;
-									var minified = json_response.minified;
-
-									// TODO : process the result of the XHR
-									self.urls.push(new URL(url, minified));
-
-									// Using of localStorage from HTML5
-									localStorage[url] = minified;
+									
+									var status = json_response.status;
+									if(status == "404") {
+										$("#url-error:hidden").fadeIn(800).delay(2000).fadeOut(600);
+									}
+									else {
+										var url = json_response.input;
+										var minified = json_response.hash;
+	
+										// TODO : process the result of the XHR
+										self.urls.push(new URL(url, minified));
+	
+										// Using of localStorage from HTML5
+										localStorage[url] = minified;
+									}
 								});
 							}
 
