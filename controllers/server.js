@@ -177,8 +177,12 @@ function validateURL(url, validProtocols) {
 	}
 	
 	// Protocol checked, now verify the format of the URL : [username[:password]@](hostname|ip)[:port][/path/][?query][#fragment]
-	match = /^[[a-ZA-Z0-9]+[:[a-zA-Z0-9]+]{0,1}@]{0,1}([a-zA-Z0-9-]+)[:\d{1,4}]{0,1}([\/\w+]){0,1}/i.exec(url);
+	// match = /^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+)*$/i.test(url);
 	
-	return '{ "status" : "' + status["ok"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+	if(/^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+)*$/i.test(url)) {
+		return '{ "status" : "' + status["ok"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
+	}
+	
+	return '{ "status" : "' + status["error"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
 	
 }
