@@ -160,6 +160,11 @@ function sendSSE(req, res) {
 // @returns a JSON object that represents the URL (status 200) or the error (status ???)
 function validateURL(url, validProtocols) {
 	
+	// Concatenate a / at the end of the URL if it is not present
+	if(url.charAt(url.length-1) != '/') {
+		url = url + '/';
+	}
+	
 	var match = /^([a-zA-Z]+):\/\//i.exec(url);
 	
 	var input = url;
@@ -179,7 +184,7 @@ function validateURL(url, validProtocols) {
 	// Protocol checked, now verify the format of the URL : [username[:password]@](hostname|ip)[:port][/path/][?query][#fragment]
 	// match = /^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+)*$/i.test(url);
 	
-	if(/^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+)*$/i.test(url)) {
+	if(/^(?:[a-zA-Z0-9]+(?::[a-zA-Z0-9]+)?@)?([a-zA-Z0-9\.]+)(?::\d{1,4})?(\/[a-zA-Z0-9\.]+\/)*$/i.test(url)) {
 		return '{ "status" : "' + status["ok"] + '", "protocol" : "' + protocol + '", "url" : "' + url + '", "input" : "' + input + '"}';
 	}
 	
